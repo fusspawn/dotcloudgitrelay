@@ -40,7 +40,7 @@ function git_clone(git_data) {
     var git_url = git_data.repository.url.replace("http://", "git://");
     console.log("cloning: " + git_url);
     
-    var git_process = exec("git clone " + git_url + " "+ repo +"\\" + id);
+    var git_process = exec("git clone " + git_url + " "+ repo +"/" + id);
     git_process.stdout.on('data', function (data) {
         if(data == "Password:")
             git_process.stdin.write("trasher");
@@ -67,8 +67,8 @@ function git_clone(git_data) {
 function deploy_step(git_data) {
     var repo = git_data.repository.name;    
     var id =  git_data.commits[git_data.commits.length - 1].id;
-    console.log("running dep code: " + "dotcloud push --all "+ repo + " " + repo +"\\" + id);
-    var dc = exec("dotcloud push --all "+ repo + " " + repo);
+    console.log("running dep code: " + "dotcloud push --all "+ repo + " " + repo +"/" + id);
+    var dc = exec("dotcloud push --all "+ repo + " " + repo +"/" + id);
     
     dc.stdout.on('data', function (data) {
         console.log("dotcloud (" + repo +") - Data: " + data);
