@@ -8,7 +8,7 @@ app.use(express.bodyParser());
 
 
 app.post('/git/push', function(req, res){
-    var payload = req.params("payload", null);;
+    var payload = req.param("payload", null);;
     
     console.log(payload);
     var git_data = JSON.parse(payload);
