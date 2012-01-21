@@ -12,7 +12,7 @@ app.post('/git/push', function(req, res){
     var git_data = JSON.parse(payload);
     
     console.log("got a git push for repo: " + git_data.repository.name + " \r\n " 
-                + "  message: " + git_data.commits[0].message);
+                + "  message: " + git_data.commits[git_data.commits.length - 1].message);
 });
 
 app.listen(8081);
