@@ -57,13 +57,32 @@ function git_clone(git_data) {
         
         console.log("Git (" + repo +") clone completed.");
         git_process.stdin.end();
-        deploy_step(git_data);
+        pre_deploy_step(git_data);
     });
 }
 
-function pre_deplog_step(git_data) {
+function pre_deploy_step(git_data) {
     var repo = git_data.repository.name;
     console.log("clearing git repo data pre deploy");
+    
+    var dc = exec("del " + repo + "\.git");
+    
+    dc.stdout.on('data', function (data) {
+        dc.stdin.write("Y");
+        console.log("dotcloud (" + repo +") - Data: " + data);
+    });
+    
+    dc.stderr.on('data', function (data) {
+        console.log("dotcloud (" + repo +") - Error: " + data);    
+    });
+    
+    dc.on('exit', function(code) {
+        if (code !== 0) {
+            console.log("dotcloud (" + repo +") - Error: Exit Code Not 0 was:" + code);
+        }
+        dc.stdin.end();
+        deploy_step(git_data);
+    });
 }
 
 function deploy_step(git_data) {
