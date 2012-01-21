@@ -1,8 +1,6 @@
 var sys = require('util')
 var exec = require('child_process').exec;
-var child;
-
-var logs = [];
+var express = require('express');
 
 var app = express.createServer();
 
