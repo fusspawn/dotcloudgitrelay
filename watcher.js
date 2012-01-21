@@ -19,11 +19,12 @@ app.post('/git/push', function(req, res){
                 + "message: " + git_data.commits[git_data.commits.length - 1].message);
     
     try {
-        var stats = fs.lstatSync(git_data.repository.name);
+        var stats = fs.lstatSync("./"+git_data.repository.name);
         if(stats.isDirectory()) {
             git_pull(git_data);
         }
     } catch (exception) {
+            console.log("exception");
             git_clone(git_data);    
     } 
 });
@@ -34,7 +35,8 @@ app.get("/", function(req, res) {
 
 function git_pull(git_data) {
     var repo = git_data.repository.name;
-    console.log("cloning: " + git_url);
+    console.log("pulling: " + repo);
+    
     var git_process = exec("git pull", [], {cwd: "./"+repo});
     git_process.stdout.on('data', function (data) {
         if(data == "Password:")
