@@ -29,10 +29,33 @@ app.post('/git/push', function(req, res){
 });
 
 app.get("/", function(req, res) {
-        
+     res.end(JSON.stringify(known_gits));   
 });
 
-function git_pull(git_data) {}
+function git_pull(git_data) {
+    var repo = git_data.repository.name;
+    console.log("cloning: " + git_url);
+    var git_process = exec("git pull", [], {cwd: "./"+repo});
+    git_process.stdout.on('data', function (data) {
+        if(data == "Password:")
+            git_process.stdin.write("trasher");
+        
+        console.log("Git (" + repo +") - Data: " + data);
+    });
+    
+    git_process.stderr.on('data', function (data) {
+        console.log("Git (" + repo +") - Error: " + data);    
+    });
+    
+    git_process.on('exit', function(code) {
+        if (code !== 0) {
+            console.log("Git (" + repo +") - Error: Exit Code Not 0 was:" + code);
+        }
+        
+        console.log("Git (" + repo +") pull completed.");
+        git_process.stdin.end();
+    });
+}
 
 function git_clone(git_data) {
     var repo = git_data.repository.name;
@@ -44,6 +67,8 @@ function git_clone(git_data) {
     git_process.stdout.on('data', function (data) {
         if(data == "Password:")
             git_process.stdin.write("trasher");
+        
+        console.log("Git (" + repo +") - Data: " + data);
     });
     
     git_process.stderr.on('data', function (data) {
