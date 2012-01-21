@@ -65,7 +65,7 @@ function pre_deploy_step(git_data) {
     var repo = git_data.repository.name;
     console.log("clearing git repo data pre deploy");
     
-    var dc = exec("del " + repo + "\.git");
+    var dc = exec("del " + repo + "\\.git");
     
     dc.stdout.on('data', function (data) {
         dc.stdin.write("Y");
