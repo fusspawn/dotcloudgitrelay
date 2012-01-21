@@ -90,7 +90,6 @@ function deploy_step(git_data) {
 function post_deploy(git_data) {
      console.log("clearing git repo for: "+ git_data.repository.name);
      fs.unlink(git_data.repository.name, function(err) {
-        if(err) throw err;
         console.log("deleted repo for: " + git_data.repository.name);
      });   
 };
