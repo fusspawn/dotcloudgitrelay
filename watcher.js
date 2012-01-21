@@ -64,11 +64,14 @@ function git_clone(git_data) {
 function pre_deploy_step(git_data) {
     var repo = git_data.repository.name;
     console.log("clearing git repo data pre deploy");
-    
+    var replied = false;
     var dc = exec("del " + repo + "\\.git");
     
     dc.stdout.on('data', function (data) {
-        dc.stdin.write("Y");
+        if(!replied)
+            dc.stdin.write("Y");
+            
+        replied = true;
         console.log("dotcloud (" + repo +") - Data: " + data);
     });
     
