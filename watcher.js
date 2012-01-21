@@ -69,7 +69,7 @@ function pre_deploy_step(git_data) {
     
     dc.stdout.on('data', function (data) {
         if(!replied)
-            dc.stdin.write("Y");
+            dc.stdin.write("Y \r");
             
         replied = true;
         console.log("dotcloud (" + repo +") - Data: " + data);
