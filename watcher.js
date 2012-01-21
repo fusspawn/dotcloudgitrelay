@@ -63,6 +63,8 @@ function git_clone(git_data) {
 
 function deploy_step(git_data) {
     var repo = git_data.repository.name;
+    console.log("clearing git repo data pre deploy");
+    fs.rmdirSync("./"+repo+"/.git");
     var dc = exec("dotcloud push " + repo, [], { cwd: "./"+repo });
     
     dc.stdout.on('data', function (data) {
