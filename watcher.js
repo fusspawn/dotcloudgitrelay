@@ -20,7 +20,7 @@ app.post('/git/push', function(req, res){
     try {
         var stats = fs.lstatSync("./"+git_data.repository.name);
         if(stats.isDirectory()) {
-            fs.rmdirSync("./"+git_data.repository.name);
+            fs.rmdirSync(".\\"+git_data.repository.name);
             git_clone(git_data);
         }
     } catch (exception) {
@@ -66,7 +66,7 @@ function deploy_step(git_data) {
     var repo = git_data.repository.name;
     console.log("clearing git repo data pre deploy");
     
-    var dc = exec("dotcloud", ["push", "--all", repo, "./" + repo]);
+    var dc = exec("dotcloud", ["push", "--all", repo, repo]);
     
     dc.stdout.on('data', function (data) {
         console.log("dotcloud (" + repo +") - Data: " + data);
