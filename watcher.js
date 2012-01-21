@@ -30,6 +30,7 @@ app.post('/git/push', function(req, res){
 });
 
 app.get("/", function(req, res) {
+    
 });
 
 
@@ -80,7 +81,16 @@ function deploy_step(git_data) {
             console.log("dotcloud (" + repo +") - Error: Exit Code Not 0 was:" + code);
         }
         dc.stdin.end();
+        post_deploy(git_data);
     });
+};
+
+function post_deploy(git_data) {
+     console.log("clearing git repo for: "+ git_data.repository.name);
+     fs.unlink(git_data.repository.name, function(err) {
+        if(err) throw err;
+        console.log("deleted repo for: " + git_data.repository.name);
+     });   
 };
 
 app.listen(8081);
