@@ -66,7 +66,7 @@ function deploy_step(git_data) {
     var repo = git_data.repository.name;
     console.log("clearing git repo data pre deploy");
     
-    var dc = exec("dotcloud", ["--all", repo, "./" + repo]);
+    var dc = exec("dotcloud", ["push", "--all", repo, "./" + repo]);
     
     dc.stdout.on('data', function (data) {
         console.log("dotcloud (" + repo +") - Data: " + data);
